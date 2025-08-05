@@ -1,22 +1,14 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://cloakforge.cc/'
 languageCode = 'en-US'
 title = 'Cloakforge'
 
 [menus]
   [[menus.main]]
-    name = 'Home'
+    name = 'Apps'
     pageRef = '/'
     weight = 10
 
-  [[menus.main]]
-    name = 'Posts'
-    pageRef = '/posts'
-    weight = 20
 
-  [[menus.main]]
-    name = 'Tags'
-    pageRef = '/tags'
-    weight = 30
 
 [module]
   [module.hugoVersion]

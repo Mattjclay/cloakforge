@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Legislation on CloakForge</title>
+    <link>http://localhost:1313/tags/legislation/</link>
+    <description>Recent content in Legislation on CloakForge</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 03 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/legislation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>New EU Privacy Regulations Strengthen Digital Rights</title>
+      <link>http://localhost:1313/news/eu-privacy-regulations/</link>
+      <pubDate>Sun, 03 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/news/eu-privacy-regulations/</guid>
+      <description>&lt;p&gt;The European Union has announced sweeping new privacy regulations that will significantly enhance digital rights protections for EU citizens, building upon the foundation established by GDPR.&lt;/p&gt;&#xA;&lt;h2 id=&#34;key-provisions&#34;&gt;Key Provisions&lt;/h2&gt;&#xA;&lt;h3 id=&#34;enhanced-data-protection&#34;&gt;Enhanced Data Protection&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Mandatory encryption&lt;/strong&gt; for all personal data storage&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Zero-knowledge requirements&lt;/strong&gt; for cloud service providers&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Automatic data deletion&lt;/strong&gt; after specified retention periods&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Real-time consent management&lt;/strong&gt; for data processing&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;ai-and-algorithm-transparency&#34;&gt;AI and Algorithm Transparency&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Algorithmic auditing&lt;/strong&gt; requirements for AI systems&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Explainable AI&lt;/strong&gt; mandates for automated decision-making&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Bias detection&lt;/strong&gt; and mitigation protocols&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;User rights&lt;/strong&gt; to human review of AI decisions&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;digital-service-accountability&#34;&gt;Digital Service Accountability&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;Privacy by design&lt;/strong&gt; requirements for all digital services&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Mandatory security assessments&lt;/strong&gt; for high-risk data processing&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Incident reporting&lt;/strong&gt; within 24 hours of breach detection&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Regular compliance audits&lt;/strong&gt; by independent third parties&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;impact-on-tech-companies&#34;&gt;Impact on Tech Companies&lt;/h2&gt;&#xA;&lt;h3 id=&#34;compliance-requirements&#34;&gt;Compliance Requirements&lt;/h3&gt;&#xA;&lt;p&gt;Companies processing EU citizen data must implement:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

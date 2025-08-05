@@ -1,32 +1,158 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Cloakforge</title>
+    <title>Tags on CloakForge</title>
     <link>http://localhost:1313/tags/</link>
-    <description>Recent content in Tags on Cloakforge</description>
+    <description>Recent content in Tags on CloakForge</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 Mar 2023 11:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Mon, 04 Aug 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Blue</title>
-      <link>http://localhost:1313/tags/blue/</link>
-      <pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate>
-      <guid>http://localhost:1313/tags/blue/</guid>
+      <title>Anonymity</title>
+      <link>http://localhost:1313/tags/anonymity/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/anonymity/</guid>
       <description></description>
     </item>
     <item>
-      <title>Green</title>
-      <link>http://localhost:1313/tags/green/</link>
-      <pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate>
-      <guid>http://localhost:1313/tags/green/</guid>
+      <title>Browser</title>
+      <link>http://localhost:1313/tags/browser/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/browser/</guid>
       <description></description>
     </item>
     <item>
-      <title>Red</title>
-      <link>http://localhost:1313/tags/red/</link>
-      <pubDate>Wed, 15 Mar 2023 11:00:00 -0700</pubDate>
-      <guid>http://localhost:1313/tags/red/</guid>
+      <title>Critical</title>
+      <link>http://localhost:1313/tags/critical/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/critical/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Network-Analysis</title>
+      <link>http://localhost:1313/tags/network-analysis/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/network-analysis/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Network-Discovery</title>
+      <link>http://localhost:1313/tags/network-discovery/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/network-discovery/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Packet-Capture</title>
+      <link>http://localhost:1313/tags/packet-capture/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/packet-capture/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Port-Scanning</title>
+      <link>http://localhost:1313/tags/port-scanning/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/port-scanning/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Privacy</title>
+      <link>http://localhost:1313/tags/privacy/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/privacy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security-Patch</title>
+      <link>http://localhost:1313/tags/security-patch/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/security-patch/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Tor-Network</title>
+      <link>http://localhost:1313/tags/tor-network/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/tor-network/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Troubleshooting</title>
+      <link>http://localhost:1313/tags/troubleshooting/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/troubleshooting/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vpn</title>
+      <link>http://localhost:1313/tags/vpn/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/vpn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Vulnerability-Assessment</title>
+      <link>http://localhost:1313/tags/vulnerability-assessment/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/vulnerability-assessment/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Zero-Day</title>
+      <link>http://localhost:1313/tags/zero-day/</link>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/zero-day/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Digital-Rights</title>
+      <link>http://localhost:1313/tags/digital-rights/</link>
+      <pubDate>Sun, 03 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/digital-rights/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Eu</title>
+      <link>http://localhost:1313/tags/eu/</link>
+      <pubDate>Sun, 03 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/eu/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Legislation</title>
+      <link>http://localhost:1313/tags/legislation/</link>
+      <pubDate>Sun, 03 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/legislation/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cybercrime</title>
+      <link>http://localhost:1313/tags/cybercrime/</link>
+      <pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/cybercrime/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Healthcare</title>
+      <link>http://localhost:1313/tags/healthcare/</link>
+      <pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/healthcare/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ransomware</title>
+      <link>http://localhost:1313/tags/ransomware/</link>
+      <pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/ransomware/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Threat-Analysis</title>
+      <link>http://localhost:1313/tags/threat-analysis/</link>
+      <pubDate>Sat, 02 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/threat-analysis/</guid>
       <description></description>
     </item>
   </channel>

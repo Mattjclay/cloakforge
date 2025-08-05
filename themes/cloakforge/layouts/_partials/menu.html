@@ -1,49 +1,25 @@
-{{- /*
-Renders a menu for the given menu ID.
-
-@context {page} page The current page.
-@context {string} menuID The menu ID.
-
-@example: {{ partial "menu.html" (dict "menuID" "main" "page" .) }}
-*/}}
-
 {{- $page := .page }}
 {{- $menuID := .menuID }}
 
 {{- with index site.Menus $menuID }}
   <ul class="navbar-nav">
-    {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
+    {{- range . }}
+      {{- if .Children }}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ .Name }}
+          </a>
+          <ul class="dropdown-menu">
+            {{- range .Children }}
+              <li><a class="dropdown-item" href="{{ .URL }}">{{ .Name }}</a></li>
+            {{- end }}
+          </ul>
+        </li>
+      {{- else }}
+        <li class="nav-item">
+          <a class="nav-link{{ if $page.IsMenuCurrent .Menu . }} active{{ end }}" href="{{ .URL }}">{{ .Name }}</a>
+        </li>
+      {{- end }}
+    {{- end }}
   </ul>
-{{- end }}
-
-{{- define "_partials/inline/menu/walk.html" }}
-  {{- $page := .page }}
-  {{- range .menuEntries }}
-    {{- $attrs := dict "href" .URL }}
-    {{- if $page.IsMenuCurrent .Menu . }}
-      {{- $attrs = merge $attrs (dict "class" "active" "aria-current" "page") }}
-    {{- else if $page.HasMenuCurrent .Menu .}}
-      {{- $attrs = merge $attrs (dict "class" "ancestor" "aria-current" "true") }}
-    {{- end }}
-    {{- $name := .Name }}
-    {{- with .Identifier }}
-      {{- with T . }}
-        {{- $name = . }}
-      {{- end }}
-    {{- end }}
-    <li class="nav-item">
-      <a class="nav-link{{ if $page.IsMenuCurrent .Menu . }} active{{ end }}"
-        {{- range $k, $v := $attrs }}
-          {{- with $v }}
-            {{- printf " %s=%q" $k $v | safeHTMLAttr }}
-          {{- end }}
-        {{- end -}}
-      >{{ $name }}</a>
-      {{- with .Children }}
-        <ul class="navbar-nav">
-          {{- partial "inline/menu/walk.html" (dict "page" $page "menuEntries" .) }}
-        </ul>
-      {{- end }}
-    </li>
-  {{- end }}
 {{- end }}

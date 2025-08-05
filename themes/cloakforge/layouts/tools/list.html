@@ -1,0 +1,57 @@
+{{ define "main" }}
+  <!-- Tools Section Header -->
+  <div class="card mb-5">
+    <div class="card-body text-center">
+      <h1 class="mb-3">
+        <i class="bi bi-tools me-2 text-primary"></i>
+        {{ .Title }}
+      </h1>
+      {{ .Content }}
+    </div>
+  </div>
+
+  <!-- Tools Grid -->
+  <div class="row g-4">
+    {{ range .Pages }}
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="card h-100 tool-card">
+        <div class="card-body d-flex flex-column">
+          <!-- Tool Title -->
+          <h5 class="card-title mb-3">
+            {{ .LinkTitle }}
+          </h5>
+          
+          <!-- Difficulty Badge -->
+          {{ with .Params.difficulty }}
+          <div class="mb-2">
+            <span class="badge bg-secondary">{{ . }}</span>
+          </div>
+          {{ end }}
+          
+          <!-- Category -->
+          {{ with .Params.category }}
+          <p class="text-muted mb-3">
+            <i class="bi bi-tag me-1"></i>{{ . }}
+          </p>
+          {{ end }}
+          
+          <!-- Learn More Button - Push to bottom -->
+          <div class="mt-auto">
+            <a href="{{ .RelPermalink }}" class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-arrow-right me-1"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+
+  {{ if eq (len .Pages) 0 }}
+  <div class="text-center py-5">
+    <i class="bi bi-tools display-1 text-muted mb-3"></i>
+    <h3 class="text-muted">No tools available yet</h3>
+    <p class="text-muted">Check back soon for cybersecurity tools and utilities.</p>
+  </div>
+  {{ end }}
+{{ end }}

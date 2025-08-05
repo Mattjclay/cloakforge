@@ -1,4 +1,52 @@
 baseURL = 'https://example.org/'
 languageCode = 'en-us'
-title = 'Cloakforge'
+title = 'CloakForge'
 theme = 'cloakforge'
+
+[params]
+  description = "Privacy • Security • Freedom"
+
+# Search configuration
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# Syntax highlighting configuration
+[markup]
+  [markup.highlight]
+    style = "github-dark"
+    lineNos = true
+    lineNumbersInTable = true
+    tabWidth = 2
+
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 10
+
+[[menu.main]]
+  name = "Apps"
+  url = "#"
+  weight = 20
+  identifier = "apps"
+
+[[menu.main]]
+  name = "Aegis"
+  url = "/aegis"
+  weight = 21
+  parent = "apps"
+
+[[menu.main]]
+  name = "Ether"
+  url = "/ether"
+  weight = 22
+  parent = "apps"
+
+[[menu.main]]
+  name = "News"
+  url = "/news"
+  weight = 30
+
+[[menu.main]]
+  name = "Tools"
+  url = "/tools"
+  weight = 40
