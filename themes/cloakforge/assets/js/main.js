@@ -17,12 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchFilters = document.querySelector('.search-filters');
         const searchContainer = document.querySelector('.search-container');
         const searchButton = document.getElementById('search-btn');
-        const searchResults = document.getElementById('search-results');
-        const categoryFilter = document.getElementById('category-filter');
-        const tagFilter = document.getElementById('tag-filter');
-        const sectionFilter = document.getElementById('section-filter');
         
-        let searchIndex = [];
+        // Assign global variables
+        searchInput = document.getElementById('search-input');
+        searchResults = document.getElementById('search-results');
+        categoryFilter = document.getElementById('category-filter');
+        tagFilter = document.getElementById('tag-filter');
+        sectionFilter = document.getElementById('section-filter');
+        clearFiltersBtn = document.getElementById('clear-filters');
         
         // Show filters when search box is focused/clicked
         searchBox.addEventListener('focus', function() {
@@ -42,7 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     searchContainer.classList.remove('filters-active');
                 }
             }
-        });    if (searchInput && searchResults) {
+        });
+        
+    if (searchInput && searchResults) {
         // Load search index
         fetch('/index.json')
             .then(response => {
@@ -54,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 searchIndex = data;
                 console.log('Search index loaded:', searchIndex.length, 'items');
-                populateFilters();
+                populateFilterOptions();
             })
             .catch(error => {
                 console.error('Error loading search index:', error);
@@ -69,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(data => {
                         searchIndex = data;
                         console.log('Search index loaded (alternative path):', searchIndex.length, 'items');
-                        populateFilters();
+                        populateFilterOptions();
                     })
                     .catch(altError => {
                         console.error('Error loading search index from alternative path:', altError);
@@ -102,11 +106,21 @@ document.addEventListener('DOMContentLoaded', function() {
 function populateFilterOptions() {
     // Collect all unique categories and tags
     searchIndex.forEach(item => {
-        if (item.categories) {
+        if (item.categories && Array.isArray(item.categories)) {
+            item.categories.forEach(category => {
+                if (category && category.trim()) { // Only add non-empty categories
+                    allCategories.add(category);
+                }
+            });
+        } else if (item.categories && typeof item.categories === 'string' && item.categories.trim()) {
             allCategories.add(item.categories);
         }
         if (item.tags && Array.isArray(item.tags)) {
-            item.tags.forEach(tag => allTags.add(tag));
+            item.tags.forEach(tag => {
+                if (tag && tag.trim()) { // Only add non-empty tags
+                    allTags.add(tag);
+                }
+            });
         }
     });
     
@@ -172,7 +186,12 @@ function searchContent(query, categoryFilter, tagFilter, sectionFilter) {
             const contentMatch = item.content.toLowerCase().includes(query);
             const summaryMatch = item.summary.toLowerCase().includes(query);
             const tagMatch = item.tags && item.tags.some(tag => tag.toLowerCase().includes(query));
-            const categoryMatch = item.categories && item.categories.toLowerCase().includes(query);
+            let categoryMatch = false;
+            if (Array.isArray(item.categories)) {
+                categoryMatch = item.categories.some(cat => cat.toLowerCase().includes(query));
+            } else if (typeof item.categories === 'string') {
+                categoryMatch = item.categories.toLowerCase().includes(query);
+            }
             
             textMatch = titleMatch || contentMatch || summaryMatch || tagMatch || categoryMatch;
         }
@@ -180,7 +199,13 @@ function searchContent(query, categoryFilter, tagFilter, sectionFilter) {
         // Category filter
         let categoryMatch = true;
         if (categoryFilter) {
-            categoryMatch = item.categories === categoryFilter;
+            if (Array.isArray(item.categories)) {
+                categoryMatch = item.categories.includes(categoryFilter);
+            } else if (typeof item.categories === 'string') {
+                categoryMatch = item.categories === categoryFilter;
+            } else {
+                categoryMatch = false;
+            }
         }
         
         // Tag filter

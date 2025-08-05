@@ -8,16 +8,19 @@
   var tagFilter;
   var sectionFilter;
   var clearFiltersBtn;
+  var allCategories = /* @__PURE__ */ new Set();
+  var allTags = /* @__PURE__ */ new Set();
   document.addEventListener("DOMContentLoaded", function() {
     const searchBox = document.getElementById("search-input");
     const searchFilters = document.querySelector(".search-filters");
     const searchContainer = document.querySelector(".search-container");
     const searchButton = document.getElementById("search-btn");
-    const searchResults2 = document.getElementById("search-results");
-    const categoryFilter2 = document.getElementById("category-filter");
-    const tagFilter2 = document.getElementById("tag-filter");
-    const sectionFilter2 = document.getElementById("section-filter");
-    let searchIndex2 = [];
+    searchInput = document.getElementById("search-input");
+    searchResults = document.getElementById("search-results");
+    categoryFilter = document.getElementById("category-filter");
+    tagFilter = document.getElementById("tag-filter");
+    sectionFilter = document.getElementById("section-filter");
+    clearFiltersBtn = document.getElementById("clear-filters");
     searchBox.addEventListener("focus", function() {
       if (searchFilters) {
         searchFilters.classList.add("show");
@@ -33,16 +36,16 @@
         }
       }
     });
-    if (searchInput && searchResults2) {
+    if (searchInput && searchResults) {
       fetch("/index.json").then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       }).then((data) => {
-        searchIndex2 = data;
-        console.log("Search index loaded:", searchIndex2.length, "items");
-        populateFilters();
+        searchIndex = data;
+        console.log("Search index loaded:", searchIndex.length, "items");
+        populateFilterOptions();
       }).catch((error) => {
         console.error("Error loading search index:", error);
         return fetch("./index.json").then((response) => {
@@ -51,28 +54,65 @@
           }
           return response.json();
         }).then((data) => {
-          searchIndex2 = data;
-          console.log("Search index loaded (alternative path):", searchIndex2.length, "items");
-          populateFilters();
+          searchIndex = data;
+          console.log("Search index loaded (alternative path):", searchIndex.length, "items");
+          populateFilterOptions();
         }).catch((altError) => {
           console.error("Error loading search index from alternative path:", altError);
-          searchResults2.innerHTML = '<div class="alert alert-warning">Search functionality is currently unavailable. Please try again later.</div>';
+          searchResults.innerHTML = '<div class="alert alert-warning">Search functionality is currently unavailable. Please try again later.</div>';
         });
       });
       searchInput.addEventListener("input", handleSearch);
       searchInput.addEventListener("focus", handleSearchFocus);
-      if (categoryFilter2) categoryFilter2.addEventListener("change", handleSearch);
-      if (tagFilter2) tagFilter2.addEventListener("change", handleSearch);
-      if (sectionFilter2) sectionFilter2.addEventListener("change", handleSearch);
+      if (categoryFilter) categoryFilter.addEventListener("change", handleSearch);
+      if (tagFilter) tagFilter.addEventListener("change", handleSearch);
+      if (sectionFilter) sectionFilter.addEventListener("change", handleSearch);
       if (clearFiltersBtn) clearFiltersBtn.addEventListener("click", clearAllFilters);
       document.addEventListener("click", function(e) {
-        if (!searchInput.contains(e.target) && !searchResults2.contains(e.target)) {
+        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
           hideSearchResults();
         }
       });
       searchInput.addEventListener("keydown", handleKeyNavigation);
     }
   });
+  function populateFilterOptions() {
+    searchIndex.forEach((item) => {
+      if (item.categories && Array.isArray(item.categories)) {
+        item.categories.forEach((category) => {
+          if (category && category.trim()) {
+            allCategories.add(category);
+          }
+        });
+      } else if (item.categories && typeof item.categories === "string" && item.categories.trim()) {
+        allCategories.add(item.categories);
+      }
+      if (item.tags && Array.isArray(item.tags)) {
+        item.tags.forEach((tag) => {
+          if (tag && tag.trim()) {
+            allTags.add(tag);
+          }
+        });
+      }
+    });
+    if (categoryFilter) {
+      Array.from(allCategories).sort().forEach((category) => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+      });
+    }
+    if (tagFilter) {
+      Array.from(allTags).sort().forEach((tag) => {
+        const option = document.createElement("option");
+        option.value = tag;
+        option.textContent = `#${tag}`;
+        tagFilter.appendChild(option);
+      });
+    }
+    updateFilterButtonState();
+  }
   function handleSearch(e) {
     const query = searchInput.value.trim().toLowerCase();
     const categoryValue = categoryFilter ? categoryFilter.value : "";
@@ -104,12 +144,23 @@
         const contentMatch = item.content.toLowerCase().includes(query);
         const summaryMatch = item.summary.toLowerCase().includes(query);
         const tagMatch2 = item.tags && item.tags.some((tag) => tag.toLowerCase().includes(query));
-        const categoryMatch2 = item.categories && item.categories.toLowerCase().includes(query);
+        let categoryMatch2 = false;
+        if (Array.isArray(item.categories)) {
+          categoryMatch2 = item.categories.some((cat) => cat.toLowerCase().includes(query));
+        } else if (typeof item.categories === "string") {
+          categoryMatch2 = item.categories.toLowerCase().includes(query);
+        }
         textMatch = titleMatch || contentMatch || summaryMatch || tagMatch2 || categoryMatch2;
       }
       let categoryMatch = true;
       if (categoryFilter2) {
-        categoryMatch = item.categories === categoryFilter2;
+        if (Array.isArray(item.categories)) {
+          categoryMatch = item.categories.includes(categoryFilter2);
+        } else if (typeof item.categories === "string") {
+          categoryMatch = item.categories === categoryFilter2;
+        } else {
+          categoryMatch = false;
+        }
       }
       let tagMatch = true;
       if (tagFilter2) {

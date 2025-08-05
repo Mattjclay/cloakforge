@@ -1,5 +1,11 @@
 {{- $.Scratch.Add "index" slice -}}
 {{- range .Site.RegularPages -}}
-    {{- $.Scratch.Add "index" (dict "title" .Title "href" .Permalink "tags" .Params.tags "categories" .Params.category "section" .Section "summary" (.Summary | plainify) "content" (.Content | plainify)) -}}
+    {{- $categories := slice -}}
+    {{- if .Params.category -}}
+        {{- $categories = $categories | append .Params.category -}}
+    {{- else if .Params.categories -}}
+        {{- $categories = .Params.categories -}}
+    {{- end -}}
+    {{- $.Scratch.Add "index" (dict "title" .Title "href" .Permalink "tags" .Params.tags "categories" $categories "section" .Section "summary" (.Summary | plainify) "content" (.Content | plainify)) -}}
 {{- end -}}
 {{- $.Scratch.Get "index" | jsonify -}}
