@@ -11,6 +11,7 @@
   var allCategories = /* @__PURE__ */ new Set();
   var allTags = /* @__PURE__ */ new Set();
   document.addEventListener("DOMContentLoaded", function() {
+    initializeThemeSwitcher();
     const searchBox = document.getElementById("search-input");
     const searchFilters = document.querySelector(".search-filters");
     const searchContainer = document.querySelector(".search-container");
@@ -284,5 +285,55 @@
         searchInput.blur();
         break;
     }
+  }
+  function initializeThemeSwitcher() {
+    const savedTheme = localStorage.getItem("cloakforge-theme") || "vscode-dark";
+    applyTheme(savedTheme);
+    const themeOptions = document.querySelectorAll(".theme-option");
+    themeOptions.forEach((option) => {
+      option.addEventListener("click", function(e) {
+        e.preventDefault();
+        const theme = this.getAttribute("data-theme");
+        applyTheme(theme);
+        themeOptions.forEach((opt) => opt.classList.remove("active"));
+        this.classList.add("active");
+        localStorage.setItem("cloakforge-theme", theme);
+      });
+    });
+  }
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    const currentThemeSpan = document.getElementById("current-theme");
+    const themeNames = {
+      "light": "VS Code Light",
+      "vscode-dark": "VS Code Dark",
+      "cloakforge-blue": "CloakForge Blue",
+      "cyberpunk": "Cyberpunk",
+      "matrix": "Matrix",
+      "hacker": "Hacker",
+      "red-alert": "Red Alert",
+      "dracula": "Dracula",
+      "monokai": "Monokai",
+      "solarized-dark": "Solarized Dark",
+      "one-dark": "One Dark",
+      "github-dark": "GitHub Dark",
+      "gruvbox-dark": "Gruvbox Dark",
+      "nord": "Nord",
+      "catppuccin": "Catppuccin",
+      "tokyo-night": "Tokyo Night",
+      "oceanic-next": "Oceanic Next"
+    };
+    if (currentThemeSpan) {
+      currentThemeSpan.textContent = themeNames[theme] || "VS Code Dark";
+    }
+    const themeOptions = document.querySelectorAll(".theme-option");
+    themeOptions.forEach((option) => {
+      if (option.getAttribute("data-theme") === theme) {
+        option.classList.add("active");
+      } else {
+        option.classList.remove("active");
+      }
+    });
+    console.log(`Theme switched to: ${themeNames[theme] || theme}`);
   }
 })();
