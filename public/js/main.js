@@ -8,8 +8,6 @@
   var tagFilter;
   var sectionFilter;
   var clearFiltersBtn;
-  var allCategories = /* @__PURE__ */ new Set();
-  var allTags = /* @__PURE__ */ new Set();
   document.addEventListener("DOMContentLoaded", function() {
     const searchBox = document.getElementById("search-input");
     const searchFilters = document.querySelector(".search-filters");
@@ -36,12 +34,30 @@
       }
     });
     if (searchInput && searchResults2) {
-      fetch("/index.json").then((response) => response.json()).then((data) => {
+      fetch("/index.json").then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      }).then((data) => {
         searchIndex2 = data;
         console.log("Search index loaded:", searchIndex2.length, "items");
-        populateFilterOptions();
+        populateFilters();
       }).catch((error) => {
         console.error("Error loading search index:", error);
+        return fetch("./index.json").then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        }).then((data) => {
+          searchIndex2 = data;
+          console.log("Search index loaded (alternative path):", searchIndex2.length, "items");
+          populateFilters();
+        }).catch((altError) => {
+          console.error("Error loading search index from alternative path:", altError);
+          searchResults2.innerHTML = '<div class="alert alert-warning">Search functionality is currently unavailable. Please try again later.</div>';
+        });
       });
       searchInput.addEventListener("input", handleSearch);
       searchInput.addEventListener("focus", handleSearchFocus);
@@ -57,33 +73,6 @@
       searchInput.addEventListener("keydown", handleKeyNavigation);
     }
   });
-  function populateFilterOptions() {
-    searchIndex.forEach((item) => {
-      if (item.categories) {
-        allCategories.add(item.categories);
-      }
-      if (item.tags && Array.isArray(item.tags)) {
-        item.tags.forEach((tag) => allTags.add(tag));
-      }
-    });
-    if (categoryFilter) {
-      Array.from(allCategories).sort().forEach((category) => {
-        const option = document.createElement("option");
-        option.value = category;
-        option.textContent = category;
-        categoryFilter.appendChild(option);
-      });
-    }
-    if (tagFilter) {
-      Array.from(allTags).sort().forEach((tag) => {
-        const option = document.createElement("option");
-        option.value = tag;
-        option.textContent = `#${tag}`;
-        tagFilter.appendChild(option);
-      });
-    }
-    updateFilterButtonState();
-  }
   function handleSearch(e) {
     const query = searchInput.value.trim().toLowerCase();
     const categoryValue = categoryFilter ? categoryFilter.value : "";

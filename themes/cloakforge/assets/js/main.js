@@ -45,14 +45,36 @@ document.addEventListener('DOMContentLoaded', function() {
         });    if (searchInput && searchResults) {
         // Load search index
         fetch('/index.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 searchIndex = data;
                 console.log('Search index loaded:', searchIndex.length, 'items');
-                populateFilterOptions();
+                populateFilters();
             })
             .catch(error => {
                 console.error('Error loading search index:', error);
+                // Try alternative path for Cloudflare Pages
+                return fetch('./index.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        searchIndex = data;
+                        console.log('Search index loaded (alternative path):', searchIndex.length, 'items');
+                        populateFilters();
+                    })
+                    .catch(altError => {
+                        console.error('Error loading search index from alternative path:', altError);
+                        searchResults.innerHTML = '<div class="alert alert-warning">Search functionality is currently unavailable. Please try again later.</div>';
+                    });
             });
         
         // Add search event listeners

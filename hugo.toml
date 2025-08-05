@@ -1,4 +1,4 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://cloakforge.cc/'
 languageCode = 'en-us'
 title = 'CloakForge'
 theme = 'cloakforge'
