@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initialize theme switcher
         initializeThemeSwitcher();
         
+        // Initialize font switcher
+        initializeFontSwitcher();
+        
         const searchBox = document.getElementById('search-input');
         const searchFilters = document.querySelector('.search-filters');
         const searchContainer = document.querySelector('.search-container');
@@ -180,25 +183,78 @@ function handleSearchFocus() {
     }
 }
 
-function searchContent(query, categoryFilter, tagFilter, sectionFilter) {
-    return searchIndex.filter(item => {
-        // Text search (if query provided)
-        let textMatch = true;
-        if (query.length >= 2) {
-            const titleMatch = item.title.toLowerCase().includes(query);
-            const contentMatch = item.content.toLowerCase().includes(query);
-            const summaryMatch = item.summary.toLowerCase().includes(query);
-            const tagMatch = item.tags && item.tags.some(tag => tag.toLowerCase().includes(query));
-            let categoryMatch = false;
-            if (Array.isArray(item.categories)) {
-                categoryMatch = item.categories.some(cat => cat.toLowerCase().includes(query));
-            } else if (typeof item.categories === 'string') {
-                categoryMatch = item.categories.toLowerCase().includes(query);
-            }
-            
-            textMatch = titleMatch || contentMatch || summaryMatch || tagMatch || categoryMatch;
+// Fuzzy search functionality
+function fuzzyMatch(pattern, text, threshold = 0.6) {
+    if (!pattern || !text) return { matches: false, score: 0 };
+    
+    pattern = pattern.toLowerCase();
+    text = text.toLowerCase();
+    
+    // Exact match gets highest score
+    if (text.includes(pattern)) {
+        return { matches: true, score: 1.0 };
+    }
+    
+    // Calculate Levenshtein distance for fuzzy matching
+    const distance = levenshteinDistance(pattern, text);
+    const maxLength = Math.max(pattern.length, text.length);
+    const score = 1 - (distance / maxLength);
+    
+    // Also check for partial word matches and acronyms
+    const words = text.split(/\s+/);
+    let bestWordScore = 0;
+    
+    for (const word of words) {
+        // Check if pattern matches beginning of word
+        if (word.startsWith(pattern)) {
+            bestWordScore = Math.max(bestWordScore, 0.8);
         }
-        
+        // Check if pattern matches word with some tolerance
+        const wordDistance = levenshteinDistance(pattern, word);
+        const wordScore = 1 - (wordDistance / Math.max(pattern.length, word.length));
+        bestWordScore = Math.max(bestWordScore, wordScore);
+    }
+    
+    // Check for acronym match (first letters of words)
+    const acronym = words.map(word => word.charAt(0)).join('');
+    if (acronym.includes(pattern)) {
+        bestWordScore = Math.max(bestWordScore, 0.7);
+    }
+    
+    const finalScore = Math.max(score, bestWordScore);
+    return { matches: finalScore >= threshold, score: finalScore };
+}
+
+function levenshteinDistance(str1, str2) {
+    const matrix = [];
+    
+    for (let i = 0; i <= str2.length; i++) {
+        matrix[i] = [i];
+    }
+    
+    for (let j = 0; j <= str1.length; j++) {
+        matrix[0][j] = j;
+    }
+    
+    for (let i = 1; i <= str2.length; i++) {
+        for (let j = 1; j <= str1.length; j++) {
+            if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(
+                    matrix[i - 1][j - 1] + 1,
+                    matrix[i][j - 1] + 1,
+                    matrix[i - 1][j] + 1
+                );
+            }
+        }
+    }
+    
+    return matrix[str2.length][str1.length];
+}
+
+function searchContent(query, categoryFilter, tagFilter, sectionFilter) {
+    let results = searchIndex.filter(item => {
         // Category filter
         let categoryMatch = true;
         if (categoryFilter) {
@@ -223,8 +279,71 @@ function searchContent(query, categoryFilter, tagFilter, sectionFilter) {
             sectionMatch = item.section === sectionFilter;
         }
         
-        return textMatch && categoryMatch && tagMatch && sectionMatch;
-    }).slice(0, 12); // Increased limit for filtered results
+        return categoryMatch && tagMatch && sectionMatch;
+    });
+    
+    // Apply fuzzy text search if query provided
+    if (query.length >= 2) {
+        const searchResults = results.map(item => {
+            let bestScore = 0;
+            let matchType = '';
+            
+            // Check title (highest priority)
+            const titleMatch = fuzzyMatch(query, item.title, 0.4);
+            if (titleMatch.matches) {
+                bestScore = Math.max(bestScore, titleMatch.score * 1.0);
+                matchType = 'title';
+            }
+            
+            // Check summary/description
+            const summaryMatch = fuzzyMatch(query, item.summary || '', 0.5);
+            if (summaryMatch.matches) {
+                bestScore = Math.max(bestScore, summaryMatch.score * 0.8);
+                if (!matchType) matchType = 'summary';
+            }
+            
+            // Check content (lower priority)
+            const contentMatch = fuzzyMatch(query, item.content || '', 0.6);
+            if (contentMatch.matches) {
+                bestScore = Math.max(bestScore, contentMatch.score * 0.6);
+                if (!matchType) matchType = 'content';
+            }
+            
+            // Check tags
+            if (item.tags) {
+                for (const tag of item.tags) {
+                    const tagMatch = fuzzyMatch(query, tag, 0.4);
+                    if (tagMatch.matches) {
+                        bestScore = Math.max(bestScore, tagMatch.score * 0.9);
+                        if (!matchType) matchType = 'tag';
+                    }
+                }
+            }
+            
+            // Check categories
+            const categories = Array.isArray(item.categories) ? item.categories : [item.categories];
+            for (const category of categories) {
+                if (category) {
+                    const categoryMatch = fuzzyMatch(query, category, 0.4);
+                    if (categoryMatch.matches) {
+                        bestScore = Math.max(bestScore, categoryMatch.score * 0.7);
+                        if (!matchType) matchType = 'category';
+                    }
+                }
+            }
+            
+            return {
+                ...item,
+                searchScore: bestScore,
+                matchType: matchType
+            };
+        }).filter(item => item.searchScore > 0)
+          .sort((a, b) => b.searchScore - a.searchScore);
+        
+        return searchResults.slice(0, 12);
+    }
+    
+    return results.slice(0, 12);
 }
 
 function displaySearchResults(results, query) {
@@ -425,4 +544,101 @@ function applyTheme(theme) {
     });
     
     console.log(`Theme switched to: ${themeNames[theme] || theme}`);
+}
+
+// Font Switcher Functionality
+function initializeFontSwitcher() {
+    const savedFont = localStorage.getItem('selectedFont') || 'Inter';
+    
+    // Apply saved font on load
+    applyFont(savedFont);
+    
+    // Add click listeners to font options using event delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.font-option')) {
+            e.preventDefault();
+            const fontOption = e.target.closest('.font-option');
+            const font = fontOption.getAttribute('data-font');
+            console.log('Font option clicked:', font);
+            applyFont(font);
+            localStorage.setItem('selectedFont', font);
+        }
+    });
+    
+    console.log('Font switcher initialized with font:', savedFont);
+}
+
+function applyFont(font) {
+    // Map font names to their CSS font-family values
+    const fontFamilies = {
+        'Inter': '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'Roboto': '"Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        'Open Sans': '"Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'Lato': '"Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'Montserrat': '"Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'Poppins': '"Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'Source Sans Pro': '"Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'Nunito': '"Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'Raleway': '"Raleway", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'Ubuntu': '"Ubuntu", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'Fira Sans': '"Fira Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        'JetBrains Mono': '"JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace'
+    };
+    
+    // Remove any existing font override style
+    const existingStyle = document.getElementById('font-override');
+    if (existingStyle) {
+        existingStyle.remove();
+    }
+    
+    // Create and inject CSS with high specificity to override theme styles
+    const fontFamily = fontFamilies[font] || fontFamilies['Inter'];
+    const style = document.createElement('style');
+    style.id = 'font-override';
+    style.textContent = `
+        body, html, .container, .content, p, h1, h2, h3, h4, h5, h6, 
+        .navbar, .nav-link, .btn, .card, .card-body, .card-title, 
+        .hero-section, .search-container, .app-card, .section-title,
+        .dropdown-item, .theme-option, .font-option, div, span, a {
+            font-family: ${fontFamily} !important;
+        }
+        
+        /* Preserve individual font previews in dropdown */
+        .font-preview[style*="Inter"] { font-family: "Inter", sans-serif !important; }
+        .font-preview[style*="Roboto"] { font-family: "Roboto", sans-serif !important; }
+        .font-preview[style*="Open Sans"] { font-family: "Open Sans", sans-serif !important; }
+        .font-preview[style*="Lato"] { font-family: "Lato", sans-serif !important; }
+        .font-preview[style*="Montserrat"] { font-family: "Montserrat", sans-serif !important; }
+        .font-preview[style*="Poppins"] { font-family: "Poppins", sans-serif !important; }
+        .font-preview[style*="Source Sans Pro"] { font-family: "Source Sans Pro", sans-serif !important; }
+        .font-preview[style*="Nunito"] { font-family: "Nunito", sans-serif !important; }
+        .font-preview[style*="Raleway"] { font-family: "Raleway", sans-serif !important; }
+        .font-preview[style*="Ubuntu"] { font-family: "Ubuntu", sans-serif !important; }
+        .font-preview[style*="Fira Sans"] { font-family: "Fira Sans", sans-serif !important; }
+        .font-preview[style*="JetBrains Mono"] { font-family: "JetBrains Mono", monospace !important; }
+        
+        /* Preserve monospace for code elements */
+        code, pre, .code, .highlight {
+            font-family: ${font === 'JetBrains Mono' ? fontFamily : '"JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace'} !important;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Update current font display in button
+    const currentFontSpan = document.getElementById('current-font');
+    if (currentFontSpan) {
+        currentFontSpan.textContent = font;
+    }
+    
+    // Update active state in dropdown
+    const fontOptions = document.querySelectorAll('.font-option');
+    fontOptions.forEach(option => {
+        if (option.getAttribute('data-font') === font) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
+        }
+    });
+    
+    console.log(`Font switched to: ${font}`);
 }

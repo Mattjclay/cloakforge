@@ -1,6 +1,53 @@
 <div class="container">
-  <!-- Theme Switcher -->
+  <!-- Theme and Font Switchers -->
   <div class="theme-switcher-container">
+    <!-- Font Switcher -->
+    <div class="dropdown me-2">
+      <button class="btn btn-sm dropdown-toggle font-switcher-btn" type="button" id="fontDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-fonts me-1"></i>
+        <span id="current-font">Inter</span>
+      </button>
+      <ul class="dropdown-menu font-dropdown" aria-labelledby="fontDropdown">
+        <li><a class="dropdown-item font-option active" href="#" data-font="Inter">
+          <span class="font-preview" style="font-family: 'Inter', sans-serif;">Inter</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Roboto">
+          <span class="font-preview" style="font-family: 'Roboto', sans-serif;">Roboto</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Open Sans">
+          <span class="font-preview" style="font-family: 'Open Sans', sans-serif;">Open Sans</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Lato">
+          <span class="font-preview" style="font-family: 'Lato', sans-serif;">Lato</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Montserrat">
+          <span class="font-preview" style="font-family: 'Montserrat', sans-serif;">Montserrat</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Poppins">
+          <span class="font-preview" style="font-family: 'Poppins', sans-serif;">Poppins</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Source Sans Pro">
+          <span class="font-preview" style="font-family: 'Source Sans Pro', sans-serif;">Source Sans Pro</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Nunito">
+          <span class="font-preview" style="font-family: 'Nunito', sans-serif;">Nunito</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Raleway">
+          <span class="font-preview" style="font-family: 'Raleway', sans-serif;">Raleway</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Ubuntu">
+          <span class="font-preview" style="font-family: 'Ubuntu', sans-serif;">Ubuntu</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="Fira Sans">
+          <span class="font-preview" style="font-family: 'Fira Sans', sans-serif;">Fira Sans</span>
+        </a></li>
+        <li><a class="dropdown-item font-option" href="#" data-font="JetBrains Mono">
+          <span class="font-preview" style="font-family: 'JetBrains Mono', monospace;">JetBrains Mono</span>
+        </a></li>
+      </ul>
+    </div>
+    
+    <!-- Theme Switcher -->
     <div class="dropdown">
       <button class="btn btn-sm dropdown-toggle theme-switcher-btn" type="button" id="themeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-palette me-1"></i>

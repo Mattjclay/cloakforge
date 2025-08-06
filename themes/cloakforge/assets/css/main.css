@@ -42,7 +42,7 @@
   --bg-tertiary: #2d2d30;            
   --text-primary: #cccccc;           
   --text-secondary: #569cd6;          
-  --text-muted: #808080;            
+  --text-muted: #a0a0a0;            
   --accent-primary: #007acc;         
   --accent-secondary: #d7ba7d;       
   --accent-tertiary: #4ec9b0;          
@@ -98,7 +98,7 @@
   --bg-tertiary: #2d2d30;
   --text-primary: #cccccc;
   --text-secondary: #569cd6;
-  --text-muted: #808080;
+  --text-muted: #a0a0a0;
   --accent-primary: #007acc;
   --accent-secondary: #d7ba7d;
   --accent-tertiary: #4ec9b0;
@@ -578,16 +578,39 @@ header h1 {
     border-radius: 6px;
     margin-top: 1rem;
     padding: 1rem;
+    display: flex;
+    justify-content: center;
   }
   
   .navbar-nav {
-    flex-direction: column;
-    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
   }
   
   .nav-link {
     margin: 0 !important;
     text-align: center;
+    width: 120px;
+    padding: 0.75rem 1rem !important;
+    border-radius: 6px;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .nav-link:hover {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary) !important;
+    border-color: var(--accent-primary);
+    transform: translateY(-1px);
   }
   
   .navbar-nav-wrapper {
@@ -602,15 +625,18 @@ header h1 {
   }
 }
 
-/* Theme Switcher Styling */
+/* Theme and Font Switcher Container */
 .theme-switcher-container {
   position: absolute;
   top: 1rem;
   right: 1rem;
   z-index: 1000;
+  display: flex;
+  gap: 0.5rem;
 }
 
-.theme-switcher-btn {
+.theme-switcher-btn,
+.font-switcher-btn {
   background-color: var(--bg-tertiary) !important;
   border: 1px solid var(--border-color) !important;
   color: var(--text-primary) !important;
@@ -620,7 +646,8 @@ header h1 {
   transition: all 0.3s ease;
 }
 
-.theme-switcher-btn:hover {
+.theme-switcher-btn:hover,
+.font-switcher-btn:hover {
   background-color: var(--accent-primary) !important;
   color: var(--bg-primary) !important;
   border-color: var(--accent-primary) !important;
@@ -628,11 +655,13 @@ header h1 {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.theme-switcher-btn:focus {
+.theme-switcher-btn:focus,
+.font-switcher-btn:focus {
   box-shadow: 0 0 0 0.2rem rgba(167, 173, 198, 0.25) !important;
 }
 
-.theme-dropdown {
+.theme-dropdown,
+.font-dropdown {
   background-color: var(--bg-secondary) !important;
   border: 1px solid var(--border-color) !important;
   border-radius: 6px !important;
@@ -641,7 +670,8 @@ header h1 {
   min-width: 160px;
 }
 
-.theme-option {
+.theme-option,
+.font-option {
   color: var(--text-primary) !important;
   padding: 0.5rem 1rem !important;
   font-size: 0.875rem;
@@ -650,12 +680,14 @@ header h1 {
   align-items: center;
 }
 
-.theme-option:hover {
+.theme-option:hover,
+.font-option:hover {
   background-color: var(--accent-primary) !important;
   color: var(--bg-primary) !important;
 }
 
-.theme-option.active {
+.theme-option.active,
+.font-option.active {
   background-color: var(--accent-tertiary) !important;
   color: var(--text-primary) !important;
   font-weight: 600;
@@ -666,7 +698,11 @@ header h1 {
   text-align: center;
 }
 
-/* Mobile theme switcher adjustments */
+.font-preview {
+  font-size: 0.875rem;
+}
+
+/* Mobile theme and font switcher adjustments */
 @media (max-width: 768px) {
   .theme-switcher-container {
     position: relative;
@@ -675,6 +711,7 @@ header h1 {
     display: flex;
     justify-content: center;
     margin-bottom: 1rem;
+    flex-wrap: wrap;
   }
 }
 
@@ -811,6 +848,63 @@ footer::before {
   color: var(--text-primary) !important;
 }
 
+/* Global Text Contrast Improvements */
+.text-muted {
+  color: var(--text-muted) !important;
+  opacity: 1 !important;
+}
+
+.text-secondary {
+  color: var(--text-secondary) !important;
+  opacity: 1 !important;
+}
+
+/* Ensure all small text has better contrast */
+small, .small {
+  color: var(--text-muted) !important;
+}
+
+/* Improve link contrast */
+a {
+  color: var(--accent-primary) !important;
+}
+
+a:hover {
+  color: var(--accent-secondary) !important;
+}
+
+/* Global Badge and Tag Contrast Improvements */
+.badge {
+  border-width: 1px !important;
+  border-style: solid !important;
+  font-weight: 600 !important;
+}
+
+.badge-outline-primary,
+.bg-outline-primary {
+  background-color: transparent !important;
+  border: 2px solid var(--accent-primary) !important;
+  color: var(--accent-primary) !important;
+}
+
+.badge-outline-secondary,
+.bg-outline-secondary {
+  background-color: transparent !important;
+  border: 2px solid var(--text-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Improve hashtag and tag visibility */
+.tag, [class*="tag-"] {
+  border: 2px solid var(--border-color) !important;
+  background-color: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  padding: 0.2rem 0.6rem !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+}
+
 .modal-header {
   border-bottom: 1px solid var(--border-color) !important;
 }
@@ -859,6 +953,45 @@ footer::before {
 .icon-security { color: var(--accent-tertiary) !important; }
 .icon-tools { color: var(--accent-primary) !important; }
 .icon-privacy { color: var(--accent-secondary) !important; }
+
+/* Bootstrap Icons Improvements */
+.bi-tag {
+  color: var(--accent-primary) !important;
+  opacity: 1 !important;
+  font-weight: 600 !important;
+  font-size: 1.1em !important;
+}
+
+.bi-tags {
+  color: var(--accent-secondary) !important;
+  opacity: 1 !important;
+  font-weight: 600 !important;
+  font-size: 1.1em !important;
+}
+
+.bi-calendar {
+  color: var(--accent-primary) !important;
+  opacity: 1 !important;
+  font-weight: 600 !important;
+  font-size: 1.1em !important;
+}
+
+/* Make tag and calendar icons stand out in cards */
+.tool-card .bi-tag,
+.card .bi-tag,
+.news-card .bi-calendar,
+.card .bi-calendar {
+  color: var(--accent-primary) !important;
+  opacity: 1 !important;
+  font-weight: bold !important;
+}
+
+/* Override text-muted styling for tag and calendar icons */
+.text-muted .bi-tag,
+.text-muted .bi-calendar {
+  color: var(--accent-primary) !important;
+  opacity: 1 !important;
+}
 
 /* Custom spacing for Bootstrap integration */
 .container-fluid {
@@ -1081,6 +1214,38 @@ footer::before {
 .app-icon-card:nth-child(6) .app-icon { background: linear-gradient(135deg, var(--accent-tertiary), var(--bg-tertiary)); }
 .app-icon-card:nth-child(7) .app-icon { background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary)); }
 .app-icon-card:nth-child(8) .app-icon { background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary)); }
+
+/* Home page app grid - centered like hamburger menu */
+.app-grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  place-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.app-grid-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive adjustments for home page app grid */
+@media (max-width: 768px) {
+  .app-grid-container {
+    gap: 1rem;
+    max-width: 320px;
+  }
+  
+  .app-grid-container .app-icon-card {
+    height: 140px;
+    width: 120px;
+  }
+}
 
 /* App grid section spacing */
 .app-grid-section {
@@ -1520,6 +1685,28 @@ article::before {
   border-color: var(--accent-primary);
 }
 
+/* Improve text contrast in tool cards */
+.tool-card .card-body {
+  color: var(--text-primary) !important;
+}
+
+.tool-card .card-text {
+  color: var(--text-primary) !important;
+  opacity: 0.9;
+}
+
+.tool-card .text-muted,
+.tool-card .text-secondary {
+  color: var(--text-primary) !important;
+  opacity: 0.8;
+}
+
+.tool-card small.text-muted {
+  color: var(--text-primary) !important;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
 /* Enhanced tool card styles */
 .tool-card .card-title a {
   color: var(--accent-primary) !important;
@@ -1535,23 +1722,40 @@ article::before {
   padding: 0.3rem 0.6rem;
 }
 
+/* Style difficulty badge to match news category badge */
+.tool-card .badge.bg-secondary {
+  background-color: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .tool-card .bg-outline-primary {
   background-color: transparent !important;
-  border: 1px solid var(--accent-primary) !important;
+  border: 2px solid var(--accent-primary) !important;
   color: var(--accent-primary) !important;
+  font-weight: 600;
 }
 
 .tool-card .btn-outline-primary {
-  border-color: var(--cool-gray-2) !important;
-  color: var(--cool-gray-2) !important;
+  border-color: var(--text-primary) !important;
+  color: var(--text-primary) !important;
   background-color: transparent !important;
   font-weight: 600 !important;
+  opacity: 0.8;
+  transition: all 0.3s ease !important;
 }
 
 .tool-card .btn-outline-primary:hover {
-  background-color: var(--cool-gray-2) !important;
-  border-color: var(--cool-gray-2) !important;
-  color: var(--dark-purple) !important;
+  background-color: var(--accent-primary) !important;
+  border-color: var(--accent-primary) !important;
+  color: var(--bg-primary) !important;
+  opacity: 1;
+  transform: translateY(-1px);
 }
 
 /* News card styles */
@@ -1591,6 +1795,28 @@ article::before {
   color: var(--accent-primary) !important;
 }
 
+/* Improve text contrast in news cards */
+.news-card .card-body {
+  color: var(--text-primary) !important;
+}
+
+.news-card .card-text {
+  color: var(--text-primary) !important;
+  opacity: 0.9;
+}
+
+.news-card .text-muted,
+.news-card .text-secondary {
+  color: var(--text-primary) !important;
+  opacity: 0.8;
+}
+
+.news-card small.text-muted {
+  color: var(--text-primary) !important;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
 .news-card .badge.bg-primary {
   background-color: var(--bg-tertiary) !important;
   color: var(--text-primary) !important;
@@ -1604,24 +1830,30 @@ article::before {
 
 .news-card .bg-outline-secondary {
   background-color: transparent !important;
-  border: 1px solid var(--cool-gray) !important;
-  color: var(--cool-gray) !important;
+  border: 2px solid var(--text-primary) !important;
+  color: var(--text-primary) !important;
   font-size: 0.7rem;
   padding: 0.2rem 0.6rem;
+  opacity: 0.8;
+  font-weight: 600;
 }
 
 .news-card .btn-outline-primary {
-  border-color: var(--cool-gray-2) !important;
-  color: var(--cool-gray-2) !important;
+  border-color: var(--text-primary) !important;
+  color: var(--text-primary) !important;
   background-color: transparent !important;
   font-weight: 600 !important;
   border-width: 2px !important;
+  opacity: 0.8;
+  transition: all 0.3s ease !important;
 }
 
 .news-card .btn-outline-primary:hover {
-  background-color: var(--cool-gray-2) !important;
-  border-color: var(--cool-gray-2) !important;
-  color: var(--dark-purple) !important;
+  background-color: var(--accent-primary) !important;
+  border-color: var(--accent-primary) !important;
+  color: var(--bg-primary) !important;
+  opacity: 1;
+  transform: translateY(-1px);
 }
 
 /* Search Bar Styles */
