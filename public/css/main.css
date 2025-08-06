@@ -479,6 +479,125 @@ header h1 {
   color: var(--accent-primary) !important;
 }
 
+/* Site Logo Styling */
+.site-logo {
+  height: 4.2rem;
+  width: auto;
+  vertical-align: middle;
+  transition: all 0.3s ease;
+  /* Colorize white logo to match the accent color */
+  filter: brightness(0) saturate(100%) invert(36%) sepia(100%) saturate(1352%) hue-rotate(194deg) brightness(98%) contrast(102%);
+}
+
+/* Logo colorization - matches title color exactly */
+.site-logo {
+  /* Default VS Code Dark blue #007acc */
+  filter: brightness(0) saturate(100%) invert(36%) sepia(100%) saturate(1352%) hue-rotate(194deg) brightness(98%) contrast(102%);
+}
+
+/* Precise color matching for each theme */
+[data-theme="light"] .site-logo {
+  /* Light theme accent #007acc */
+  filter: brightness(0) saturate(100%) invert(36%) sepia(100%) saturate(1352%) hue-rotate(194deg) brightness(98%) contrast(102%);
+}
+
+[data-theme="cloakforge-blue"] .site-logo {
+  /* CloakForge blue accent #e0e1dd */
+  filter: brightness(0) saturate(100%) invert(92%) sepia(13%) saturate(338%) hue-rotate(38deg) brightness(96%) contrast(95%);
+}
+
+[data-theme="cyberpunk"] .site-logo {
+  /* Cyberpunk cyan #00ffff */
+  filter: brightness(0) saturate(100%) invert(78%) sepia(100%) saturate(7444%) hue-rotate(180deg) brightness(105%) contrast(101%);
+}
+
+[data-theme="matrix"] .site-logo,
+[data-theme="hacker"] .site-logo {
+  /* Matrix/Hacker green #00ff00 */
+  filter: brightness(0) saturate(100%) invert(59%) sepia(98%) saturate(1418%) hue-rotate(81deg) brightness(119%) contrast(119%);
+}
+
+[data-theme="red-alert"] .site-logo {
+  /* Red alert #ff0000 */
+  filter: brightness(0) saturate(100%) invert(14%) sepia(100%) saturate(7426%) hue-rotate(0deg) brightness(95%) contrast(118%);
+}
+
+[data-theme="dracula"] .site-logo {
+  /* Dracula green #50fa7b */
+  filter: brightness(0) saturate(100%) invert(78%) sepia(59%) saturate(1352%) hue-rotate(81deg) brightness(115%) contrast(119%);
+}
+
+[data-theme="monokai"] .site-logo {
+  /* Monokai pink #f92672 */
+  filter: brightness(0) saturate(100%) invert(18%) sepia(100%) saturate(7426%) hue-rotate(327deg) brightness(95%) contrast(118%);
+}
+
+[data-theme="solarized-dark"] .site-logo {
+  /* Solarized blue #268bd2 */
+  filter: brightness(0) saturate(100%) invert(42%) sepia(98%) saturate(1352%) hue-rotate(194deg) brightness(88%) contrast(102%);
+}
+
+[data-theme="github-dark"] .site-logo {
+  /* GitHub blue #58a6ff */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(100%) saturate(7444%) hue-rotate(194deg) brightness(105%) contrast(101%);
+}
+
+[data-theme="atom-dark"] .site-logo {
+  /* Atom blue #61afef */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(76%) saturate(6213%) hue-rotate(194deg) brightness(105%) contrast(97%);
+}
+
+[data-theme="material-dark"] .site-logo {
+  /* Material teal #83a598 */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(15%) saturate(1077%) hue-rotate(169deg) brightness(96%) contrast(87%);
+}
+
+[data-theme="oceanic-next"] .site-logo {
+  /* Oceanic blue #88c0d0 */
+  filter: brightness(0) saturate(100%) invert(78%) sepia(18%) saturate(1018%) hue-rotate(174deg) brightness(95%) contrast(96%);
+}
+
+[data-theme="one-dark"] .site-logo {
+  /* One Dark blue #89b4fa */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(76%) saturate(6213%) hue-rotate(194deg) brightness(117%) contrast(97%);
+}
+
+[data-theme="gruvbox-dark"] .site-logo {
+  /* Gruvbox blue #7aa2f7 */
+  filter: brightness(0) saturate(100%) invert(64%) sepia(76%) saturate(6213%) hue-rotate(194deg) brightness(117%) contrast(97%);
+}
+
+[data-theme="nord"] .site-logo {
+  /* Nord blue #6699cc */
+  filter: brightness(0) saturate(100%) invert(56%) sepia(94%) saturate(1352%) hue-rotate(194deg) brightness(98%) contrast(102%);
+}
+
+[data-theme="tomorrow-night"] .site-logo {
+  /* Tomorrow Night blue #6699cc */
+  filter: brightness(0) saturate(100%) invert(56%) sepia(94%) saturate(1352%) hue-rotate(194deg) brightness(98%) contrast(102%);
+}
+
+/* Responsive logo sizing */
+@media (max-width: 768px) {
+  .site-logo {
+    height: 3.5rem;
+  }
+  
+  header h1 {
+    font-size: 2.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-logo {
+    height: 2.8rem;
+  }
+  
+  header h1 {
+    font-size: 2rem !important;
+  }
+}
+
 /* Bootstrap Navigation Override */
 .navbar {
   background: transparent !important;
